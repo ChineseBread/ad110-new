@@ -1,32 +1,16 @@
 {
-  "root": true,
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2021,
-    "sourceType": "module"
-  },
-  "plugins": ["@typescript-eslint", "react", "prettier"],
   "extends": [
     "next/core-web-vitals",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    // react 17+
+    "plugin:react/jsx-runtime"
   ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    // 自定义规则
+    // enable additional rules
     "indent": ["error", 2],
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
-    "react/prop-types": "off",
-    "prettier/prettier": "error"
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"]
   }
 }
