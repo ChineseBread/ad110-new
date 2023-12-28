@@ -33,3 +33,18 @@ export interface ICategory {
   cateNums: string
   updatedAt: string
 }
+
+// 博客评论
+export interface IComment {
+  commId: number
+  blogId: number
+  commContent: string
+  commAuthor: string
+  commSite?: string
+  commEmail?: string
+  commPosttime: string
+  commPostip: string // ip地址
+  commAvator: string
+  commHideSwitch: 1 | 0 // 隐藏
+  updatedAt: string
+}

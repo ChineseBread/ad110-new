@@ -15,7 +15,11 @@ const convertToCamelCase = (obj: any): any => {
     const result: { [key: string]: unknown } = {}
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        const camelCaseKey = key.replace(/_([a-z])/g, (_, match) => match.toUpperCase())
+        let camelCaseKey = key.replace(/_(.)/g, (_, char) => char.toUpperCase())
+        const firstChar = camelCaseKey.charAt(0)
+        if (key.charAt(0) === key.charAt(0).toUpperCase()) {
+          camelCaseKey = firstChar.toLowerCase() + camelCaseKey.slice(1)
+        }
         result[camelCaseKey] = convertToCamelCase(obj[key])
       }
     }
@@ -40,7 +44,8 @@ const baseRequest = async (url: string, params?: object) => {
 interface RequestOptions {
   defaultResult: unknown // 兜底数据
   format?: boolean // 后端接口数据以下划线为主 此参数表示是否使用格式化
-  formatter?: () => unknown // 对象数据的预处理
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  formatter?: (data: any) => any // 对象数据的预处理
   params?: object
 }
 
