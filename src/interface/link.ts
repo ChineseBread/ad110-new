@@ -1,13 +1,16 @@
-// 热门链接
+/**
+ * link 和 url的区别 link 是艺术分类 每个艺术分类下有多个url网站
+ */
+// 热门分类
 export interface IHotLink {
-  id: number
+  id: number // id => kindid
   name: string
   hotSwitch: 1 | 0
   hits: number
 }
 
-// 博文链接
-export interface IBlogLink {
+// 网站链接
+export interface IUrl {
   urlId: number
   categoryId: number
   urlName: string

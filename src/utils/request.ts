@@ -28,6 +28,7 @@ const convertToCamelCase = (obj: any): any => {
   return obj
 }
 
+/** 需要考虑 routeParams参数形式 待定 */
 const baseRequest = async (url: string, params?: object) => {
   let fetchUrl = `${BASE_API}${url}`
   if (params !== undefined) {
@@ -41,7 +42,7 @@ const baseRequest = async (url: string, params?: object) => {
   return result.status === 200 ? result.json() : Promise.reject()
 }
 
-interface RequestOptions {
+interface IRequestOptions {
   defaultResult: unknown // 兜底数据
   format?: boolean // 后端接口数据以下划线为主 此参数表示是否使用格式化
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,13 +50,12 @@ interface RequestOptions {
   params?: object
 }
 
-export const request = async (key: apiKey, options: RequestOptions) => {
+export const request = async (key: apiKey, options: IRequestOptions) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { defaultResult, format = true, formatter = (data: any) => data, params } = options
   try {
     const result = await baseRequest(apiMap[key], params)
-    if (format) return formatter(convertToCamelCase(result))
-    return formatter(result)
+    return format ? formatter(convertToCamelCase(result)) : formatter(result)
   }
   catch (e) {
     return defaultResult
