@@ -9,6 +9,7 @@
   ],
   "plugins": ["@stylistic"],
   "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_" }] // _用于提取多于参数
     // enable additional rules
     // "indent": ["error", 2],
     // "quotes": ["error", "double"],
