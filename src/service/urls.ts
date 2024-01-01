@@ -57,6 +57,7 @@ const QueryModeApi = {
   RECOMMEND: 'GET_SORTED_URLS_BY_RECOMMEND',
 }
 
+/** 两种方法一样 调用方式不同 */
 export const getSortedUrls = (mode: QueryMode, kindid: string, limit = 1, page = 20): Promise<PagingSearch<IUrl[], { cateName: string }>> => {
   return request(QueryModeApi[mode] as apiKey, { params: { kindid, limit, page }, formatter: (result: PagingSearch<IUrl[], { ok: boolean, cateName: string }>) => {
     if (result.ok) {
@@ -65,4 +66,31 @@ export const getSortedUrls = (mode: QueryMode, kindid: string, limit = 1, page =
     }
     throw new Error()
   }, defaultResult: { limit: 0, totalCount: 0, currentPage: 0, data: [] } })
+}
+
+export const getSortedUrlsByMode = (mode: QueryMode, kindid: string, limit = 1, page = 20): Promise<PagingSearch<IUrl[], { cateName: string }>> => {
+  return request('GET_SORTED_URLS', { params: { kindid, limit, page }, formatter: (result: PagingSearch<IUrl[], { ok: boolean, cateName: string }>) => {
+    if (result.ok) {
+      const { ok: _, ...rest } = result
+      return rest
+    }
+    throw new Error()
+  },
+  defaultResult: { limit: 0, totalCount: 0, currentPage: 0, data: [] },
+  routeParams: { mode },
+  })
+}
+
+// 点赞链接
+export const likeUrls = (urlid: string): Promise<{ ok: boolean }> => {
+  return request('LIKE_URL', { params: { urlid }, defaultResult: { ok: false } })
+}
+
+// trackUrlClick
+export const clickUrl = (urlid: string): Promise<void> => {
+  return request('CLICK_URL', { params: { urlid }, defaultResult: undefined })
+}
+
+export const uploadUrl = (name: string, url: string, info: string): Promise<{ ok: boolean }> => {
+  return request('UPLOAD_URL', { params: { name, url, info }, defaultResult: { ok: false } })
 }
