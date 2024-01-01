@@ -13,15 +13,13 @@ const convertToCamelCase = (obj: any): any => {
   }
   else if (typeof obj === 'object' && obj !== null) {
     const result: { [key: string]: unknown } = {}
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        let camelCaseKey = key.replace(/_(.)/g, (_, char) => char.toUpperCase())
-        const firstChar = camelCaseKey.charAt(0)
-        if (key.charAt(0) === key.charAt(0).toUpperCase()) {
-          camelCaseKey = firstChar.toLowerCase() + camelCaseKey.slice(1)
-        }
-        result[camelCaseKey] = convertToCamelCase(obj[key])
+    for (const [key, value] of Object.entries(obj)) {
+      let camelCaseKey = key.replace(/_(.)/g, (_, char) => char.toUpperCase())
+      const firstChar = camelCaseKey.charAt(0)
+      if (key.charAt(0) === key.charAt(0).toUpperCase()) {
+        camelCaseKey = firstChar.toLowerCase() + camelCaseKey.slice(1)
       }
+      result[camelCaseKey] = convertToCamelCase(value)
     }
     return result
   }
